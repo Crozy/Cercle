@@ -55,6 +55,7 @@ public class DefaultTeam {
 		Point pointDummy = points.get(0);
 		Point pointP = new Point();
 		Point pointQ = new Point();
+		int id = 0;
 
 		// Cherche le point P qui sera le point le plus loin du point Dummy
 		for (int a = 0; a < points.size(); a++) {
@@ -84,6 +85,29 @@ public class DefaultTeam {
 		pointC.setLocation(myX, myY);
 
 		double rayonCP = pointC.distance(pointP);
+
+		points.remove(pointP);
+		points.remove(pointQ);
+
+		Point pointS = new Point();
+		pointS.setLocation(points.get(10).getX(), points.get(10).getY());
+
+		boolean pointsDansLeCercle = false;
+		
+		System.out.println("pointS x :" + pointS.getX());
+
+		while (pointsDansLeCercle == false) {
+			if (Math.sqrt((pointS.getX() - pointC.x) * (pointS.getX() - pointC.x)
+					+ (pointC.getY() - pointS.getY())) < rayonCP) {
+				points.remove(pointS);
+				pointS.setLocation(points.get(10).getX(), points.get(10).getY());
+			} else {
+				pointsDansLeCercle = true;
+			}
+		}
+		
+		
+		System.out.println("pointS x :" + pointS.getX());
 
 		Point center = pointC;
 		int radius = (int) rayonCP;
