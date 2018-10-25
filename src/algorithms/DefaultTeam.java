@@ -51,120 +51,42 @@ public class DefaultTeam {
 			return null;
 		}
 
-		double xMin = 99999;
-		double yMin = 99999;
-		double xMax = 0;
-		double yMax = 0;
-
-		for (Point thePoint : points) {
-			if (thePoint.x < xMin) {
-				xMin = thePoint.x;
-			}
-			if (thePoint.x > xMax) {
-				xMax = thePoint.x;
-			}
-			if (thePoint.y < yMin) {
-				yMin = thePoint.y;
-			}
-			if (thePoint.y > yMax) {
-				yMax = thePoint.y;
-			}
-		}
-
-		System.out.println("xMin : " + xMin + " xMax : " + xMax + " Ymin : " + yMin + " Ymax : " + yMax);
-
-		Point pointA = new Point();
-		pointA.setLocation(xMin, yMin);
-
-		Point pointB = new Point();
-		pointB.setLocation(xMax, yMax);
-		
-		Point pointMaxA = null;
-		Point pointMaxI = null;
-		
 		double distancePlusLong = 0;
+		Point pointDummy = points.get(0);
+		Point pointP = new Point();
+		Point pointQ = new Point();
 
+		// Cherche le point P qui sera le point le plus loin du point Dummy
 		for (int a = 0; a < points.size(); a++) {
-			for (int i = 0; i < points.size(); i++) {
-				double distanceActuel = points.get(a).distance(points.get(i));
-				if (distanceActuel > distancePlusLong) {
-					distancePlusLong = distanceActuel;
-					pointMaxA = points.get(a);
-					pointMaxI = points.get(i);
-				}
+			double distanceActuel = pointDummy.distance(points.get(a));
+			if (distanceActuel > distancePlusLong) {
+				distancePlusLong = distanceActuel;
+				pointP = points.get(a);
 			}
 		}
 
-		double DistanceAB = pointMaxA.distance(pointMaxI);
-		DistanceAB = DistanceAB / 2;
+		distancePlusLong = 0;
 
-		double theX = (xMin + xMax) / 2;
-		double theY = (yMin + yMax) / 2;
+		// Cherche le point Q qui sera le point le plus loin du point P
+		for (int a = 0; a < points.size(); a++) {
+			double distanceActuel = pointP.distance(points.get(a));
+			if (distanceActuel > distancePlusLong) {
+				distancePlusLong = distanceActuel;
+				pointQ = points.get(a);
+			}
+		}
 
-		Point pointCentre = new Point();
-		pointCentre.setLocation(theX, theY);
+		Point pointC = new Point();
 
-//		double distancePlusLong = 0;
-//
-//		Point pointMaxA = null;
-//		Point pointMaxI = null;
-//
-//		for (int a = 0; a < points.size(); a++) {
-//			for (int i = 0; i < points.size(); i++) {
-//				double distanceActuel = points.get(a).distance(points.get(i));
-//				if (distanceActuel > distancePlusLong) {
-//					distancePlusLong = distanceActuel;
-//					pointMaxA = points.get(a);
-//					pointMaxI = points.get(i);
-//				}
-//			}
-//		}
-//
-//		Point pointMilieu;
-//		double resultY = 0, resultX = 0, miniX = 0, miniY = 0;
-//
-//		if (pointMaxA.getY() < pointMaxI.getY()) {
-//			resultY = pointMaxI.getY() - pointMaxA.getY();
-//			miniY = pointMaxI.getY();
-//		} else {
-//			resultY = pointMaxA.getY() - pointMaxI.getY();
-//			miniY = pointMaxA.getY();
-//		}
-//
-//		if (pointMaxA.getX() < pointMaxI.getX()) {
-//			resultY = pointMaxI.getX() - pointMaxA.getX();
-//			miniX = pointMaxI.getY();
-//		} else {
-//			resultY = pointMaxA.getX() - pointMaxI.getX();
-//			miniX = pointMaxA.getY();
-//		}
-//
-////		resultY = resultY / 2;
-////		resultX = resultX / 2;
-//
-//		Point pointGeneric = new Point();
-//		pointGeneric.setLocation(resultX / 2 + miniX, resultY / 2 - miniY);
-//
-////		for (Point thePoint : points) {
-////			double theDistance = thePoint.getX() - resultX;
-////		}
-//
-//		Point thePoint = null;
-//
-//		double distanceMinPointGenerric = 999999999;
-//		for (int b = 0; b < points.size(); b++) {
-//			double theDistance = pointGeneric.distance(points.get(b));
-//			if (theDistance < distanceMinPointGenerric) {
-//				distanceMinPointGenerric = theDistance;
-//				thePoint = points.get(b);
-//			}
-//		}
+		double myX = (pointP.getX() + pointQ.getX()) / (double) 2;
+		double myY = (pointP.getY() + pointQ.getY()) / (double) 2;
 
-//		Point center = thePoint;
-//		int radius = (int) distancePlusLong / 2;
+		pointC.setLocation(myX, myY);
 
-		Point center = pointCentre;
-		int radius = (int) DistanceAB;
+		double rayonCP = pointC.distance(pointP);
+
+		Point center = pointC;
+		int radius = (int) rayonCP;
 
 		/*******************
 		 * PARTIE A ECRIRE *
